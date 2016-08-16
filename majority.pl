@@ -1,5 +1,5 @@
 # majority.pl
-# This program demonstrates the use of Majority_rule_phylogeny.
+# This program demonstrates the use of MrP.
 # The arguments are input as options, although they can be
 # directly input to subroutines.
 
@@ -11,10 +11,10 @@ use Bio::TreeIO;
 use Bio::Tree::NodeI;
 use Bio::Tree::TreeFunctionsI;
 use Getopt::Long;
-use Majority_rule_phylogeny;
+use MrP;
 
 # default values of options
-my $majority_threshold = 50;
+my $majority_threshold = 51;
 my $boot_threshold = 70;
 my $feature_selector;
 my @features = ();	# feature values of interest
@@ -58,9 +58,9 @@ sub option_handler {
 	# the value of the option name.
 	if ($opt_name eq "date") {
 		$feature_selector = DATE;
-	} elsif ($opt_name eq "pri_feature") {
+	} elsif ($opt_name eq "pri") {
 		$feature_selector = PRIMARY;
-	} elsif ($opt_name eq "sec_feature") {
+	} elsif ($opt_name eq "sec") {
 		$feature_selector = SECONDARY;
 	} else {
 		die "Error in option_handler(): unknown option: $!\n";
