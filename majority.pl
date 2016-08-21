@@ -1,5 +1,5 @@
 # majority.pl
-# This program demonstrates the use of MrP.
+# This program demonstrates the use of MVP.
 # The arguments are input as options, although they can be
 # directly input to subroutines.
 
@@ -11,13 +11,20 @@ use Bio::TreeIO;
 use Bio::Tree::NodeI;
 use Bio::Tree::TreeFunctionsI;
 use Getopt::Long;
-use MrP;
+use MVP;
 
 # default values of options
 my $majority_threshold = 51;
 my $boot_threshold = 70;
 my $feature_selector;
 my @features = ();	# feature values of interest
+
+# option definitions
+# --maj: feature majority percentage
+# --boot: bootstrap value percentage
+# --date: start year and end year in 4 digits
+# --pri: primary feature in comma-separated values
+# --sec: secondary feature in comma-separated values
 my $usage = "Usage: perl $0 [--maj FLOAT1] [--boot FLOAT2] \
 			[--date INT1 INT2 | \
 			--pri VALUE[,VALUE[,...]] | \
