@@ -1,2 +1,3 @@
-# MrP.pm
+# MVP.pm
 Perl package that determines the majority feature values of the nodes of a phylogenetic tree by simple majority rule and parsimony.
+The pacakage requires a Newick tree as input. The node identifiers of the Newick tree should contain values in @-delimited fields. The values at a particular field represent a feature of that tree. The node identifiers have to be specifically formatted as 'accession_number@yyyy/mm/dd@primary_feature@secondary_feature', in which the node identifiers are enclosed in single quotation marks. The accession number, date, and primary are mandatory, whereas the secondary feature is optional.
