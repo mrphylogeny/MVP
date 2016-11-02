@@ -1,4 +1,3 @@
-<<<<<<< 8718ea6b55ab5776a0ed25c351c61e65a6ca89f1
 # MVP.pm
 
 =pod
@@ -71,12 +70,20 @@ given that a feature is selected.
     }
 
     # main program
+<<<<<<< 0966a2a95365a63dad34751b0ef71c02fe0a5564
 	
 	# core subroutine
 	core($tree, $feature_selector);
 	# utility subroutines
 	write_collected_node_ids($tree);
     write_majority_feature_values($tree, $feature_selector);
+=======
+    initialize($tree);
+    traverse_tree($tree);
+    find_feature_majority($tree, $feature_selector);
+    write_collected_node_ids($tree);
+    write_feature_majority($tree, $feature_selector);
+>>>>>>> Defined initial node id as node_number@init
     write_feature_summary($tree);
     write_output_nexus_tree($tree, $boot_threshold, \
         $feature_selector, @features);
