@@ -70,20 +70,12 @@ given that a feature is selected.
     }
 
     # main program
-<<<<<<< 0966a2a95365a63dad34751b0ef71c02fe0a5564
 	
 	# core subroutine
 	core($tree, $feature_selector);
 	# utility subroutines
 	write_collected_node_ids($tree);
     write_majority_feature_values($tree, $feature_selector);
-=======
-    initialize($tree);
-    traverse_tree($tree);
-    find_feature_majority($tree, $feature_selector);
-    write_collected_node_ids($tree);
-    write_feature_majority($tree, $feature_selector);
->>>>>>> Defined initial node id as node_number@init
     write_feature_summary($tree);
     write_output_nexus_tree($tree, $boot_threshold, \
         $feature_selector, @features);
@@ -190,7 +182,6 @@ The package contains three core subroutines to be run sequentially as follows.
 One feature can be selected at a time.
 
 =head2 CORE SUBROUTINES
-
 
 =over
 
@@ -509,6 +500,7 @@ sub _traverse_tree {
     my $root = $tree->get_root_node;
     my $traversal_log = "traversal_log.txt";    # traversal log
 	
+    open my $fh, ">", $traversal_log or die $!;
     print "Writing traversal log to $traversal_log.\n";
     open my $fh, ">", $traversal_log or die $!;
 	print $fh "#Traversal log: $traversal_log\n";
