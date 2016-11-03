@@ -76,4 +76,3 @@ write_tree_summary($tree);
 my $end_run = time();
 print "Program elapsed time in seconds: ", $end_run - $start_run, "\n";
 exit;
-
