@@ -500,7 +500,6 @@ sub _traverse_tree {
     my $root = $tree->get_root_node;
     my $traversal_log = "traversal_log.txt";    # traversal log
 	
-    open my $fh, ">", $traversal_log or die $!;
     print "Writing traversal log to $traversal_log.\n";
     open my $fh, ">", $traversal_log or die $!;
 	print $fh "#Traversal log: $traversal_log\n";
