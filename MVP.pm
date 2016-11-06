@@ -399,10 +399,16 @@ require Exporter;
 
 use strict;
 
+<<<<<<< d5ad8fe6baf7e62d7cdc39b1ad6aa8fda8286f0e
 # Global variable that stores the maximum number of feature fields found
 our $max_fields = 0;
 
 # Run the core subroutines sequentially.
+=======
+# Global variable that stores the maximum number of feature fields founds
+our $max_fields = 0;
+
+>>>>>>> Used an integer as the feature selector, with date as 0
 sub core {
 	my ($tree, $feature_selector) = @_;
 	_initialize($tree);
@@ -623,6 +629,7 @@ sub _find_majority_feature_values {
     my ($tree, $feature_selector) = @_;
     my @nodes = $tree->get_nodes;
     my $root = $tree->get_root_node;
+<<<<<<< d5ad8fe6baf7e62d7cdc39b1ad6aa8fda8286f0e
     # file that records the majority feature determination procedure
     my $feature_counts = "feature_counts.txt";
     # default selected feature type is date
@@ -631,6 +638,15 @@ sub _find_majority_feature_values {
 	# Prevent a non-existing feature from being selected
 	if ($feature_selector >= $max_fields) {
 		die "The selected feature ($feature_selector) does not exist. The feature code exceeds the maximum number of fields found ($max_fields).\n";
+=======
+    # file that records the majority feature determination procedure of all nodes
+    my $feature_counts = "feature_counts.txt";
+    # default selected feature type is primary feature
+    $feature_selector = 1 if (!$feature_selector);
+    
+	if ($feature_selector > $max_fields - 1) {
+		die "Selected feature does not exist. The feature type code exceeds the maximum number of fields found ($max_fields).\n";
+>>>>>>> Used an integer as the feature selector, with date as 0
 	}
 	
     print "Writing raw feature counts of all nodes to $feature_counts.\n";
@@ -638,8 +654,13 @@ sub _find_majority_feature_values {
     # write report header
 	print $fh "#Feature value counting and majority determination: $feature_counts\n";
 	print $fh "#Input file: $ARGV[0]\n";
+<<<<<<< d5ad8fe6baf7e62d7cdc39b1ad6aa8fda8286f0e
     print $fh "#Selected feature code: $feature_selector\n";
     print $fh "#", "=" x 40, "\n";
+=======
+    print $fh "#Selected feature type code: $feature_selector\n";
+    print $fh "#", "=" x 30, "\n";
+>>>>>>> Used an integer as the feature selector, with date as 0
     print $fh "#node_number", "\t", "feature_value", "\n";
 
     foreach my $node (@nodes) {
@@ -784,6 +805,12 @@ sub _get_feature_values {
     my @collected_node_ids = split /,/, $node->get_tag_values("collected_node_ids");
 	# array that stores the extracted feature values to be returned
     my @returned_features = ();
+<<<<<<< d5ad8fe6baf7e62d7cdc39b1ad6aa8fda8286f0e
+=======
+	# $base is the subscript that points to the second element of
+	# the array containing node ids, i.e. the date field
+    my $base = 1;
+>>>>>>> Used an integer as the feature selector, with date as 0
 	
 	# The leaf node id is in the format
     # accession_number@yyyy/mm/dd@feature1@feature2@feature3@...
@@ -798,6 +825,7 @@ sub _get_feature_values {
 				die "Error in _get_feature_values(): field delimiter not found in node identifiers.\n";
 			} else {
 				my @split_node_id = split /@/, $id;
+<<<<<<< d5ad8fe6baf7e62d7cdc39b1ad6aa8fda8286f0e
 				# If a node identifier has fewer fields than the
 				# maximum number of fields found, add dummy fields with
 				# the value "dummy" up to the maximum number of fields.
@@ -822,6 +850,23 @@ sub _get_feature_values {
 					push @returned_features, $split_date[0];
 				} else {
 					push @returned_features, $split_node_id[$feature_selector];
+=======
+				# @split_node_id contains node ids separated by @.
+				# As $base points to the second element, i.e. date field,
+				# the subscript [$base + $feature_selector] indicates
+				# which feature to select.
+				# Therefore $split_node_id[0] is accession number,
+				# $split_node_id[1] is date,
+				# $split_node_id[2] is the first feature,
+				# $split_node_id[3] is the second feature, etc.
+				if ($feature_selector == 0) {
+					# split the date by the date separator, i.e. /
+					my @split_date = split /\//, $split_node_id[$base];
+					# return the year part of the date, i.e. $split_date[0]
+					push @returned_features, $split_date[0];
+				} else {
+					push @returned_features, $split_node_id[$base + $feature_selector];
+>>>>>>> Used an integer as the feature selector, with date as 0
 				}
 			}
         }
@@ -836,6 +881,7 @@ sub write_majority_feature_values {
     my ($tree, $feature_selector) = @_;
     my @nodes = $tree->get_nodes;
     my $root = $tree->get_root_node;
+<<<<<<< d5ad8fe6baf7e62d7cdc39b1ad6aa8fda8286f0e
     my $majority_feature = "majority_feature.txt";
     # default selected feature type is date
     $feature_selector = 1 if ($feature_selector eq "");
@@ -843,12 +889,26 @@ sub write_majority_feature_values {
 	print "Selected feature code: $feature_selector\n";
     print "Writing majority feature values to $majority_feature.\n";
     open my $fh, ">", $majority_feature or die $!;
+=======
+    my $feature_majority = "feature_majority.txt";
+    # default selected feature type is primary feature
+    $feature_selector = 1 if (! $feature_selector);
+        
+    print "Writing majority feature values to $feature_majority.\n";
+    open my $fh, ">", $feature_majority or die $!;
+>>>>>>> Used an integer as the feature selector, with date as 0
     # write report header
 	print $fh "#Majority feature value report: $majority_feature\n";
 	print $fh "#Input file: $ARGV[0]\n";
+<<<<<<< d5ad8fe6baf7e62d7cdc39b1ad6aa8fda8286f0e
     print $fh "#Selected feature code: $feature_selector\n";
     print $fh "#", "=" x 40, "\n";
     print $fh "#node_number", "\t", "node_id", "\t", "ancestor", "\t", "majority", "\t", "count", "\t", "total", "\t", "majority%", "\t", "absolute_majority_(>50%)", "\n";
+=======
+    print $fh "#Selected feature type code: $feature_selector\n";
+    print $fh "#", "=" x 30, "\n";
+    print $fh "#node_number", "\t", "id", "\t", "ancestor", "\t", "majority", "\t", "count", "\t", "total", "\t", "majority%", "\t", "absolute_majority_(>50%)", "\n";
+>>>>>>> Used an integer as the feature selector, with date as 0
     
     foreach my $node (@nodes) {
         # Since the root has no ancestor, its ancestor is printed as "no_ancestor".
