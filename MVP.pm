@@ -170,11 +170,14 @@ and dd (day) 2 digits. The @ sign is used because it seldoms appears in the
 content of a Newick tree, and it is a valid character in Newick format.
 It should be noted that a field delimiter cannot be a word separator in a
 node identifier simultaneously.
+<<<<<<< 84498933f8834c1e694a2fb8f0201f443907aa33
 
 Each field of a node identifier can be selected with an integer, which
 starts with zero. For a node identifier with N fields, the first feature
 is 0, and the last feature is N - 1. Therefore 0 represents accession number,
 and 1 represents date, and so on.
+=======
+>>>>>>> Renamed write_feature_majority to write_majority_feature_values()
 
 =head1 SUBROUTINES
 
