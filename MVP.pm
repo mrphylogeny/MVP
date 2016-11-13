@@ -179,6 +179,11 @@ and 1 represents date, and so on.
 =======
 >>>>>>> Renamed write_feature_majority to write_majority_feature_values()
 
+Each field of a node identifier can be selected with an integer, which
+starts with zero. For a node identifier with N fields, the first feature
+is 0, and the last feature is N - 1. Therefore 0 represents accession number,
+and 1 represents date, and so on.
+
 =head1 SUBROUTINES
 
 The package contains three core subroutines to be run sequentially as follows.
