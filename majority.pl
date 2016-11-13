@@ -7,37 +7,35 @@
 
 use strict;
 use warnings;
+use Time::HiRes qw ( time );
 use Bio::TreeIO;
 use Bio::Tree::NodeI;
 use Bio::Tree::TreeFunctionsI;
 use Getopt::Long;
 use MVP;
 
+my $start_run = time();
 # default values of options
 my $majority_threshold = 51;
 my $boot_threshold = 70;
-my $feature_selector;
+my $feature_selector = 1;
 my @features = ();	# feature values of interest
 
 # option definitions
-# --maj: feature majority percentage
-# --boot: bootstrap value percentage
-# --date: start year and end year in 4 digits
-# --pri: primary feature in comma-separated values
-# --sec: secondary feature in comma-separated values
+# --maj: feature majority percentage (float)
+# --boot: bootstrap value percentage (float)
+# --feature: feature code (integer)
+# --values: desired values of the feature type (comma-separated values)
 my $usage = "Usage: perl $0 [--maj FLOAT1] [--boot FLOAT2] \
-			[--date INT1 INT2 | \
-			--pri VALUE[,VALUE[,...]] | \
-			--sec VALUE[,VALUE[,...]]] \
+			--feature INT --values <comma-separated values> \
 			<newick_tree_file>\n";
 
-my $result = GetOptions("maj=f" => \$majority_threshold,
+my $result = GetOptions(
+				"maj=f" => \$majority_threshold,
 				"boot=f" => \$boot_threshold,
-				# start year and end year in 4 digits
-				"date=i{2}" => \&option_handler,
-				"pri=s@" => \&option_handler,
-				"sec=s@" => \&option_handler)
-				or die $usage;
+				"feature=i" => \$feature_selector,
+				"values=s@" => \&option_handler,
+			) or die $usage;
 
 # check against insufficient command-line arguments
 die $usage if (@ARGV < 1);
@@ -60,31 +58,22 @@ sub option_handler {
 	# are concatenated with comma first, and then split by comma.
 	my @values = split /,/, join(",", @opt_values);
 	push @features, @values;
-	
-	# Assign the feature selector with the appropriate value according to
-	# the value of the option name.
-	if ($opt_name eq "date") {
-		$feature_selector = DATE;
-	} elsif ($opt_name eq "pri") {
-		$feature_selector = PRIMARY;
-	} elsif ($opt_name eq "sec") {
-		$feature_selector = SECONDARY;
-	} else {
-		die "Error in option_handler(): unknown option: $!\n";
-	}
 }
 
 
 # main program
-initialize($tree);
-traverse_tree($tree);
+
+# core subroutine
+core($tree, $feature_selector);
+# utility subroutines
 write_collected_node_ids($tree);
-find_feature_majority($tree, $feature_selector);
-write_feature_majority($tree, $feature_selector);
+write_majority_feature_values($tree, $feature_selector);
 write_feature_summary($tree);
 write_output_nexus_tree($tree, $boot_threshold, $feature_selector, @features);
 find_selected_majority_nodes($tree, $majority_threshold, $feature_selector, @features);
 write_tree_summary($tree);
 
+my $end_run = time();
+print "Program elapsed time in seconds: ", $end_run - $start_run, "\n";
 exit;
 
