@@ -830,6 +830,7 @@ sub _get_feature_values {
 					push @returned_features, $split_date[0];
 				} else {
 					push @returned_features, $split_node_id[$feature_selector];
+				}
 				# Therefore $split_node_id[0] is accession number,
 				# $split_node_id[1] is date,
 				# $split_node_id[2] is feature 1,
