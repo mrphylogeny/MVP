@@ -636,9 +636,9 @@ sub _find_majority_feature_values {
     # default selected feature type is date
     $feature_selector = 1 if ($feature_selector eq "");
     
-	# Prevent a non-existing feature from being selected
-	if ($feature_selector >= $max_fields) {
-		die "The selected feature ($feature_selector) does not exist. The feature code exceeds the maximum number of fields found ($max_fields).\n";
+	# Prevent an invalid feature from being selected.
+	if ($feature_selector >= $max_fields || $feature_selector < 0) {
+		die "Invalid feature code ($feature_selector) is entered. The feature code exceeds the maximum number of fields found ($max_fields) or is negative.\n";
 	}
     
     print "Writing raw feature counts of all nodes to $feature_counts.\n";
